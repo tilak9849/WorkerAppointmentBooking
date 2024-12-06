@@ -8,7 +8,8 @@ import Spinner from "./components/Spinner";
 import PublicRoute from "./components/PublicRoutes";
 import ApplyWorker from "./pages/ApplyWorker";
 import NotificationPage from "./pages/Notification";
-
+import Users from "./pages/admin/Users";
+import Workers from "./pages/admin/Workers"
 function App() {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -42,6 +43,24 @@ function App() {
             element={
               <ProtectedRoutes>
                 <NotificationPage/>
+              </ProtectedRoutes>
+            }
+          />
+
+<Route
+            path="/admin/users"
+            element={
+              <ProtectedRoutes>
+                <Users/>
+              </ProtectedRoutes>
+            }
+          />
+
+<Route
+            path="/admin/workers"
+            element={
+              <ProtectedRoutes>
+               <Workers/>
               </ProtectedRoutes>
             }
           />

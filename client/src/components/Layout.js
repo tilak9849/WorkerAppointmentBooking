@@ -4,8 +4,7 @@ import { adminMenu, userMenu } from "./../Data/data";
 
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { message,Badge, Avatar } from "antd";
-import { Cursor } from "mongoose";
+import { message,Badge } from "antd";
 const Layout = ({ children }) => {
   const { user } = useSelector((state) => state.user);
   const location = useLocation();

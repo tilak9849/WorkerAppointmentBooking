@@ -19,6 +19,7 @@ app.use(morgan('dev')); // Logger for development
 
 // Routes
 app.use('/api/v1/user', require('./routes/userRoute')); // Corrected the path
+app.use('/api/v1/admin', require('./routes/adminRoutes')); // Corrected the path
 
 // Port setup
 const PORT = process.env.PORT || 4000;
