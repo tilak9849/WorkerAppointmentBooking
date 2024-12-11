@@ -65,14 +65,14 @@ const loginController = async (req, res) => {
         if (!isMatch) {
             return res.status(400).send({ message: "Invalid credentials", success: false });
         }
-
+        
         // Generate a JWT token
         const token = jwt.sign(
             { id: user._id },
             process.env.JWT_SECRET,
             { expiresIn: '1d' } // Token expires in 1 day
         );
-
+        
         // Send token and success response
         res.status(200).send({
             message: "Login successful",
@@ -191,4 +191,29 @@ const authController = async (req, res) => {
     }
   }
 
-module.exports = { loginController, registerController,authController,applyWorkerController,getAllNotificationController ,deleteAllNotificationController};
+  // Get all worker controller 
+  const getAllWorkersController = async (req, res) => {
+    try {
+      const workers = await workerModel.find({ status: 'approved' });
+      res.status(200).send({
+        success: true,
+        message: 'Workers fetched successfully',
+        data: workers, // Include the workers data in the response
+      });
+    } catch (error) {
+      console.error(error); // Log the error for debugging
+      res.status(500).send({
+        success: false,
+        message: 'Error while fetching workers',
+        error: error.message, // Send the error message in the response
+      });
+    }
+  };
+  
+module.exports = { loginController, 
+  registerController,
+  authController,
+  applyWorkerController,
+  getAllNotificationController 
+  ,deleteAllNotificationController
+,getAllWorkersController};

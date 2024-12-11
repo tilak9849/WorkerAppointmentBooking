@@ -1,76 +1,55 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../../components/Layout";
 import axios from "axios";
-import { Table, message } from "antd";
+import { message, Table } from "antd";
+// import { BACKEND_URL } from "../../config";
 
 const Workers = () => {
   const [workers, setWorkers] = useState([]);
-
+  //getUsers
   const getWorkers = async () => {
+    
     try {
       const res = await axios.get("/api/v1/admin/getAllWorkers", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
+      
       if (res.data.success) {
         setWorkers(res.data.data);
       }
     } catch (error) {
-      console.error(error);
-      message.error("Failed to fetch workers");
+      console.log(error);
     }
   };
 
-  const handleApprove = async (workerId) => {
+  // handle account
+  const handleAccountStatus = async (record, status) => {
     try {
+      console.log(record)
       const res = await axios.post(
-        `/api/v1/admin/approveWorker`,
-        { workerId },
+       `/api/v1/admin/changeAccountStatus`,
+        {workerId: record._id, userId:record.userId, status:status },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
+  
+      console.log(res)
       if (res.data.success) {
-        setWorkers((prev) =>
-          prev.map((worker) =>
-            worker.id === workerId ? { ...worker, status: "approved" } : worker
-          )
-        );
-        message.success("Worker approved successfully");
+        message.success(res.data.message);
+         // Refresh workers list
+        window.location.reload()
       }
     } catch (error) {
-      console.error(error);
-      message.error("Failed to approve worker");
+      console.error(error.response?.data || error.message);
+      message.error("Something Went Wrong");
     }
   };
-
-  const handleReject = async (workerId) => {
-    try {
-      const res = await axios.post(
-        `/api/v1/admin/rejectWorker`,
-        { workerId },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      if (res.data.success) {
-        setWorkers((prev) =>
-          prev.map((worker) =>
-            worker.id === workerId ? { ...worker, status: "rejected" } : worker
-          )
-        );
-        message.success("Worker rejected successfully");
-      }
-    } catch (error) {
-      console.error(error);
-      message.error("Failed to reject worker");
-    }
-  };
+  
 
   useEffect(() => {
     getWorkers();
@@ -91,7 +70,7 @@ const Workers = () => {
       dataIndex: "status",
     },
     {
-      title: "Phone",
+      title: "phone",
       dataIndex: "phone",
     },
     {
@@ -102,17 +81,12 @@ const Workers = () => {
           {record.status === "pending" ? (
             <button
               className="btn btn-success"
-              onClick={() => handleApprove(record.id)}
+              onClick={() => handleAccountStatus(record, "approved")}
             >
               Approve
             </button>
           ) : (
-            <button
-              className="btn btn-danger"
-              onClick={() => handleReject(record.id)}
-            >
-              Reject
-            </button>
+            <button className="btn btn-danger">Reject</button>
           )}
         </div>
       ),
@@ -122,7 +96,7 @@ const Workers = () => {
   return (
     <Layout>
       <h1 className="text-center m-3">All Workers</h1>
-      <Table columns={columns} dataSource={workers} rowKey="id" />
+      <Table columns={columns} dataSource={workers} />
     </Layout>
   );
 };

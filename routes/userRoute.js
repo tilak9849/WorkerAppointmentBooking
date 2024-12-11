@@ -1,5 +1,5 @@
 const express = require('express');
-const { loginController, registerController, authController,applyWorkerController,getAllNotificationController,deleteAllNotificationController } = require('../controllers/userController');
+const { loginController, registerController, authController,applyWorkerController,getAllNotificationController,deleteAllNotificationController, getAllWorkersController } = require('../controllers/userController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
 // Initialize the router object
@@ -23,6 +23,9 @@ router.post('/get-all-notification',authMiddleware,getAllNotificationController)
 
 // Notification Worker || POST  
 router.post('/delete-all-notification',authMiddleware,deleteAllNotificationController)
+
+// GET ALL WORKER 
+router.get('/getAllWorkers',authMiddleware,getAllWorkersController)
 
 // Export the router to use in `server.js`
 module.exports = router;

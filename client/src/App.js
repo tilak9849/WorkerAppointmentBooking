@@ -10,6 +10,7 @@ import ApplyWorker from "./pages/ApplyWorker";
 import NotificationPage from "./pages/Notification";
 import Users from "./pages/admin/Users";
 import Workers from "./pages/admin/Workers"
+import Profile from "./pages/worker/Profile";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -37,6 +38,32 @@ function App() {
               </ProtectedRoutes>
             }
           />
+            
+            <Route
+                        path="/admin/users"
+                        element={
+                          <ProtectedRoutes>
+                            <Users/>
+                          </ProtectedRoutes>
+                        }
+                      />
+
+          <Route
+            path="/admin/workers"
+            element={
+              <ProtectedRoutes>
+               <Workers/>
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+              path="/worker/profile/:id"
+              element={
+                <ProtectedRoutes>
+                  <Profile />
+                </ProtectedRoutes>
+              }
+            />
 
 <Route
             path="/notification"
@@ -47,23 +74,9 @@ function App() {
             }
           />
 
-<Route
-            path="/admin/users"
-            element={
-              <ProtectedRoutes>
-                <Users/>
-              </ProtectedRoutes>
-            }
-          />
 
-<Route
-            path="/admin/workers"
-            element={
-              <ProtectedRoutes>
-               <Workers/>
-              </ProtectedRoutes>
-            }
-          />
+            
+
           <Route
             path="/login"
             element={

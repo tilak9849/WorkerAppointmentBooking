@@ -10,7 +10,7 @@ router.get('/getAllUsers',authmiddleware,getAllUsers)
 router.get('/getAllWorkers',authmiddleware,getAllWorkers)
 
 // POST || ACCOUNT STATUS
-router.get('/changeAccountStatus',authmiddleware,changeAccountStatusController)
+router.post('/changeAccountStatus',authmiddleware,changeAccountStatusController)
 
 
 module.exports = router;

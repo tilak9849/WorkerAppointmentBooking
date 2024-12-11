@@ -40,32 +40,47 @@ const getAllWorkers = async (req,res)=>{
 }
 
 // Worker account status
-const changeAccountStatusController = async(req,res)=>{
-    try{
-const {workerId, status} = req.body
-        const worker = await workerModel.findByIdAndUpdate(workerId,{status})
-        const user = await userModel.findOne({_id:worker.userId})
-        const notification =user.notification
-        notification.push({
-            type:'worker-account-request-updated',
-            message:`Your Worker Account Request Has ${status}`,
-            onClickPath:'/notification'
-        })
-
-        user.isWorker === 'approved' ? true :false
-        await user.save()
-        res.status(201).send({
-            success:true,
-            message:'Account Status Updated',
-            data:worker
-,        })
-    }catch(error){
-        console.log(error);
-        res.status(500).send({
-            success:false,
-            messege:'Error while changing account status'
-        })
-        
+const changeAccountStatusController = async (req, res) => {
+  console.log("this is body",req.body)
+  console.log("this is change account")
+    try {
+      const { workerId, status } = req.body;
+      const worker = await workerModel.findByIdAndUpdate(workerId, { status }, { new: true });
+      if (!worker) {
+        return res.status(404).send({
+          success: false,
+          message: "Worker not found",
+        });
+      }
+      const user = await userModel.findById(worker.userId);
+      if (!user) {
+        return res.status(404).send({
+          success: false,
+          message: "User not found",
+        });
+      }
+      const notifcation = user.notifcation || [];
+      notifcation.push({
+        type: "worker-account-request-updated",
+        message: `Your Worker Account Request Has ${status}`,
+        onClickPath: "/notification",
+      });
+      user.notifcation = notifcation;
+      user.isWorker = status === "approved" ? true : false;
+      await user.save();
+      res.status(201).send({
+        success: true,
+        message: "Account Status Updated",
+        data: worker,
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Error in Account Status",
+        error: error.message,
+      });
     }
-}
+  };
+  
 module.exports = {getAllUsers,getAllWorkers,changeAccountStatusController}

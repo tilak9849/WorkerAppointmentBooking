@@ -16,8 +16,35 @@ const Layout = ({ children }) => {
     navigate("/login");
   };
 
+// =============WORKER MENU ==========
+ const workerMenu = [
+  {
+      name:'Home',
+      path:'/',
+      icon:'fa-solid fa-house'
+  },
+  {
+      name:'Appointments',
+      path:'/appointments',
+      icon:'fa-solid fa-list'
+  },
+  {
+      name:'profile',
+      path:`/worker/profile/${user?._id}`,
+      icon:'fa-solid fa-user'
+  },
+  
+];
+
+// ============WORKER MENU==========
+
+
   // redering menu list
-  const SidebarMenu = user?.isAdmin ? adminMenu : userMenu;
+  const SidebarMenu = user?.isAdmin
+    ? adminMenu
+    : user?.isWorker
+    ? workerMenu
+    : userMenu;
   return (
     <>
       <div className="main">

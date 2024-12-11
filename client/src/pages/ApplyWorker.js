@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showLoading, hideLoading } from "../redux/features/alertSlice";
 import axios from "axios";
-
+import moment from "moment";
 const ApplyWorker = () => {
   const { user } = useSelector((state) => state.user);
 
@@ -17,7 +17,14 @@ const ApplyWorker = () => {
       dispatch(showLoading());
       const res = await axios.post(
         "/api/v1/user/apply-worker",
-      { ...values, userId: user._id },
+      { 
+        ...values, 
+        userId: user._id, 
+      timings: [
+        moment(values.timings[0]).format("HH:mm"),
+        moment(values.timings[1]).format("HH:mm"),
+      ],
+    },
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -86,8 +93,8 @@ const ApplyWorker = () => {
             </Form.Item>
           </Col>
           <Col xs={24} md={24} lg={8}>
-            <Form.Item label="Website" name="website">
-              <Input type="text" placeholder="your website" />
+            <Form.Item label="Social Media" name="socialMedia">
+              <Input type="text" placeholder="your Social Media Name " />
             </Form.Item>
           </Col>
           <Col xs={24} md={24} lg={8}>
@@ -125,8 +132,8 @@ const ApplyWorker = () => {
           </Col>
           <Col xs={24} md={24} lg={8}>
             <Form.Item
-              label="Fees Per Cunsaltation"
-              name="feesPerCunsaltation"
+              label="Fees Per Service"
+              name="feesPerService"
               required
               rules={[{ required: true }]}
             >

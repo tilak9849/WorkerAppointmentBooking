@@ -3,6 +3,7 @@ const colors = require('colors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const connectDB = require('./config/db'); // Ensure this is correct
+const cors = require('cors')
 
 // dotenv configuration
 dotenv.config();
@@ -16,11 +17,12 @@ const app = express();
 // Middlewares
 app.use(express.json()); // Parse incoming JSON requests
 app.use(morgan('dev')); // Logger for development
+app.use(cors())
 
 // Routes
 app.use('/api/v1/user', require('./routes/userRoute')); // Corrected the path
 app.use('/api/v1/admin', require('./routes/adminRoutes')); // Corrected the path
-
+app.use('/api/v1/worker',require('./routes/workerRoutes'))
 // Port setup
 const PORT = process.env.PORT || 4000;
 

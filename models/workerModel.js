@@ -31,7 +31,7 @@ const workerSchema = new mongoose.Schema({
         type: String,
         required: [true, "experience is required"],
       },
-      feesPerCunsaltation: {
+      feesPerService: {
         type: Number,
         required: [true, "fee is required"],
       },
