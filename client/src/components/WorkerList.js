@@ -8,7 +8,7 @@ const WorkerList = ({ worker }) => {
       <div
         className="card m-2"
         style={{ cursor: "pointer" }}
-        onClick={() => navigate(`/worker/${worker._id}`)} // Navigate to a specific worker's detail page
+        onClick={() => navigate(`/worker/book-appointment/${worker._id}`)} // Navigate to a specific worker's detail page
       >
         <div className="card-header">
           {worker.firstName} {worker.lastName}

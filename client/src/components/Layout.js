@@ -25,7 +25,7 @@ const Layout = ({ children }) => {
   },
   {
       name:'Appointments',
-      path:'/appointments',
+      path:'/worker-appointments',
       icon:'fa-solid fa-list'
   },
   {

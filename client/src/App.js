@@ -11,6 +11,9 @@ import NotificationPage from "./pages/Notification";
 import Users from "./pages/admin/Users";
 import Workers from "./pages/admin/Workers"
 import Profile from "./pages/worker/Profile";
+import BookingPage from "./pages/BookingPage";
+import Appointment from "./pages/Appointment";
+import WorkerAppointments from "./pages/worker/WorkerAppointments";
 function App() {
   const { loading } = useSelector((state) => state.alerts);
 
@@ -66,6 +69,15 @@ function App() {
             />
 
 <Route
+              path="/worker/book-appointment/:workerId"
+              element={
+                <ProtectedRoutes>
+                  <BookingPage/>
+                </ProtectedRoutes>
+              }
+            />
+
+<Route
             path="/notification"
             element={
               <ProtectedRoutes>
@@ -91,6 +103,25 @@ function App() {
               <PublicRoute>
                 <Register />
               </PublicRoute>
+            }
+          />
+
+<Route
+            path="/appointments"
+            element={
+              <ProtectedRoutes>
+                <Appointment />
+              </ProtectedRoutes>
+            }
+          />
+
+        
+<Route
+            path="/worker-appointments"
+            element={
+              <ProtectedRoutes>
+                <WorkerAppointments />
+              </ProtectedRoutes>
             }
           />
           <Route path="/test" element={<div>Test Page</div>} /> {/* Debugging */}

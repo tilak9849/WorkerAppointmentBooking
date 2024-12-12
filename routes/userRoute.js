@@ -1,5 +1,15 @@
 const express = require('express');
-const { loginController, registerController, authController,applyWorkerController,getAllNotificationController,deleteAllNotificationController, getAllWorkersController } = require('../controllers/userController');
+const { loginController,
+     registerController,
+      authController,
+      applyWorkerController,
+      getAllNotificationController,
+      deleteAllNotificationController, 
+      getAllWorkersController, 
+       bookingAvailabilityController,
+       bookAppointmnetController,
+       userAppointmentController} = require('../controllers/userController');
+
 const authMiddleware = require('../middlewares/authMiddleware');
 
 // Initialize the router object
@@ -27,5 +37,16 @@ router.post('/delete-all-notification',authMiddleware,deleteAllNotificationContr
 // GET ALL WORKER 
 router.get('/getAllWorkers',authMiddleware,getAllWorkersController)
 
-// Export the router to use in `server.js`
+// BOOK APPOINTMENT
+router.post('/book-appointment',authMiddleware,bookAppointmnetController)
+
+router.post(
+     "/booking-availbility",
+     authMiddleware,
+     bookingAvailabilityController
+   );
+
+//    Appointment List 
+
+router.get('/user-appointments',authMiddleware,userAppointmentController)
 module.exports = router;
